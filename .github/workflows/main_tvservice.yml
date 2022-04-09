@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'tvservice'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5DE45E156D0D46E6B9A2E49FD64D7891 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8599663C10764BCE9859B6718A529ADC }}
           package: '*.jar'
