@@ -37,6 +37,7 @@ public class UserController {
     @GetMapping(value = "streamingnow", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<List<TvShowModel>> getTvShowsToday() {
+
         List<TvShowModel> tvShows = applicationService.getTvShowsToday();
 
         return new ResponseEntity<>(tvShows, HttpStatus.OK);
@@ -45,13 +46,16 @@ public class UserController {
     @PostMapping(value = "like", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<?> likedTvShow(@RequestBody TvShowModel tvShowModel, Principal principal) {
+
         applicationService.likeTvShow(tvShowModel, principal);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "top", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<List<TvShowModel>> getTop10TvShows() {
+
         List<TvShowModel> tvShows = applicationService.getTop10TvShow();
 
         return new ResponseEntity<>(tvShows, HttpStatus.OK);
