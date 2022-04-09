@@ -27,6 +27,11 @@ public class ApplicationService {
         this.applicationUserDetailsService = applicationUserDetailsService;
     }
 
+    /**
+     * Creates a user if a user doesn't exist or else throws an exception
+     *
+     * @param user
+     */
     public void createUser(UserModel user) {
 
         // Creates user and login
@@ -38,6 +43,13 @@ public class ApplicationService {
         tvService.saveTvUser(tvUser);
 
     }
+
+    /**
+     * Suggests random tvshow to user by incrementing showid
+     *
+     * @param user
+     * @return
+     */
 
     public TvShowModel suggestTvShow(Principal user) {
 
@@ -62,6 +74,12 @@ public class ApplicationService {
 
         return tvShowModel;
     }
+
+    /**
+     * fetches tvhows hiring today
+     *
+     * @return
+     */
 
     public List<TvShowModel> getTvShowsToday() {
 
@@ -99,6 +117,11 @@ public class ApplicationService {
 
     }
 
+    /**
+     * fetches top 10 liked tv shows
+     *
+     * @return
+     */
 
     public List<TvShowModel> getTop10TvShow() {
 

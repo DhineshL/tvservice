@@ -29,6 +29,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Configures http requests and provides form based authentication and authorization
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -57,10 +63,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/");
     }
 
+    /**
+     * Configures database for authentication
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
+
+
+    /**
+     * Provides database for authentication and authorization
+     *
+     * @throws Exception
+     */
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){

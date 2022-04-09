@@ -50,6 +50,13 @@ public class TvService {
         tvShowRepository.save(tvShowEntity);
     }
 
+    /**
+     * Fetches tvshow shows by page and catches the pages for fast retrival
+     *
+     * @param page
+     * @return
+     */
+
     @Cacheable(value="tvShows",key = "#page")
     public Map<Integer,TvShowModel> fetchTvShowPages(int page){
 
@@ -62,6 +69,12 @@ public class TvService {
 
         return tvShowMap;
     }
+
+    /**
+     * Fetches tvshows by date and catches the pages for fast retrival
+     * @param date
+     * @return
+     */
 
     @Cacheable(value="tvShowsByDate",key = "#date")
     public List<TvShowModel> fetchTvShowsByDate(String date){

@@ -19,6 +19,12 @@ import java.security.cert.X509Certificate;
 @Configuration
 public class RestConfig {
 
+    /**
+     * Disable SSL certificates and configures custom apache http resttemplate connection pool for faster api calls
+     * by reducing the connection needed for requests
+     *
+     */
+
     static {
         disableSslVerification();
     }
@@ -44,11 +50,7 @@ public class RestConfig {
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
             // Create all-trusting host name verifier
-            HostnameVerifier allHostsValid = new HostnameVerifier() {
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            };
+            HostnameVerifier allHostsValid = (hostname, session) -> true;
 
             // Install the all-trusting host verifier
             HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
