@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
+import java.util.Set;
 
 @Entity(name="tblShow")
 @Getter
@@ -30,7 +32,7 @@ public class TvShowEntity {
     @Column(length=10000)
     private String summary;
 
-    private String users;
+    private Set<String> users;
 
     private Long likes;
 

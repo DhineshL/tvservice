@@ -10,6 +10,8 @@ import com.dhinesh.tvservice.model.UserModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 
 public class Utility {
 
@@ -87,6 +89,7 @@ public class Utility {
        tvShowEntity.setSummary(tvShowModel.getSummary());
        tvShowEntity.setWeight(tvShowModel.getWeight());
        tvShowEntity.setLikes(1l);
+       tvShowEntity.setUsers(new HashSet<>());
 
        return tvShowEntity;
     }
@@ -95,7 +98,7 @@ public class Utility {
 
         TvShowModel tvShowModel = new TvShowModel();
         tvShowModel.setId(tvShowEntity.getId());
-        tvShowModel.setGenres(tvShowEntity.getGenres().isEmpty()?Arrays.asList():Arrays.asList(tvShowEntity.getGenres().split(",")));
+        tvShowModel.setGenres(tvShowEntity.getGenres().isEmpty()? Collections.emptyList() :Arrays.asList(tvShowEntity.getGenres().split(",")));
         tvShowModel.setImageUrl(tvShowEntity.getImageUrl());
         tvShowModel.setLanguage(tvShowEntity.getLanguage());
         tvShowModel.setName(tvShowEntity.getName());

@@ -98,18 +98,17 @@ public class ApplicationService {
         // Checks if show is empty
         if (tvShowEntity.isEmpty()) {
             tvShow = Utility.createTvShowEntityFromTvUserModal(tvShowModel);
-            tvShow.setUsers(username);
+            tvShow.getUsers().add(username);
         } else {
 
             tvShow = tvShowEntity.get();
-            Set<String> users = new HashSet<>(Arrays.asList(tvShow.getUsers().split(",")));
+            Set<String> users = tvShow.getUsers();
 
             if (users.contains(username))
                 throw new AlreadyLikedTvShow(String.format("Already Liked show %s", tvShowId.toString()));
 
             // Increments like and users to liked usernames to prevent further likes
-            users.add(username);
-            tvShow.setUsers(String.join(",", users));
+            tvShow.getUsers().add(username);
             tvShow.setLikes(tvShow.getLikes() + 1);
         }
 
