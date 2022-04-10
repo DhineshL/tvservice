@@ -43,7 +43,7 @@ public class UserController {
         return new ResponseEntity<>(tvShows, HttpStatus.OK);
     }
 
-    @PostMapping(value = "like", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "like", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<?> likedTvShow(@RequestBody TvShowModel tvShowModel, Principal principal) {
 

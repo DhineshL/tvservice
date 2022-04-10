@@ -1,18 +1,19 @@
 package com.dhinesh.tvservice.entity;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
 import java.util.Set;
 
 @Entity(name="tblShow")
-@Getter
-@Setter
+@Data
 public class TvShowEntity {
     @Id
     private Integer id;
@@ -32,9 +33,9 @@ public class TvShowEntity {
     @Column(length=10000)
     private String summary;
 
+    @ElementCollection
     private Set<String> users;
 
     private Long likes;
-
 
 }

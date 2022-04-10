@@ -2,19 +2,26 @@ package com.dhinesh.tvservice.service;
 
 import com.dhinesh.tvservice.entity.TvShowEntity;
 import com.dhinesh.tvservice.entity.TvUser;
-import com.dhinesh.tvservice.exception.AlreadyLikedTvShow;
+import com.dhinesh.tvservice.exception.ConflictException;
+import com.dhinesh.tvservice.exception.NotFoundException;
+import com.dhinesh.tvservice.model.TvShowByDate;
 import com.dhinesh.tvservice.model.TvShowModel;
 import com.dhinesh.tvservice.model.UserModel;
 import com.dhinesh.tvservice.util.Utility;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ApplicationService {
 
     private TvService tvService;
@@ -84,7 +91,11 @@ public class ApplicationService {
     public List<TvShowModel> getTvShowsToday() {
 
         // fetches tv shows hiring today by passing today's date
-        return tvService.fetchTvShowsByDate(LocalDate.now().toString());
+        List<TvShowByDate> tvShows =  tvService.fetchTvShowsByDate(LocalDate.now().toString());
+
+        return tvShows.stream()
+                .map(Utility::createTvShowModelFromTvShowByDate)
+                .collect(Collectors.toList());
     }
 
     public void likeTvShow(TvShowModel tvShowModel, Principal principal) {
@@ -97,7 +108,7 @@ public class ApplicationService {
 
         // Checks if show is empty
         if (tvShowEntity.isEmpty()) {
-            tvShow = Utility.createTvShowEntityFromTvUserModal(tvShowModel);
+            tvShow = Utility.createTvShowEntityFromTvShowModal(tvShowModel);
             tvShow.getUsers().add(username);
         } else {
 
@@ -105,7 +116,7 @@ public class ApplicationService {
             Set<String> users = tvShow.getUsers();
 
             if (users.contains(username))
-                throw new AlreadyLikedTvShow(String.format("Already Liked show %s", tvShowId.toString()));
+                throw new ConflictException(String.format("Already Liked show %s", tvShowId.toString()));
 
             // Increments like and users to liked usernames to prevent further likes
             tvShow.getUsers().add(username);

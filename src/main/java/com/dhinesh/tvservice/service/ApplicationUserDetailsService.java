@@ -1,7 +1,7 @@
 package com.dhinesh.tvservice.service;
 
 import com.dhinesh.tvservice.entity.ApplicationUser;
-import com.dhinesh.tvservice.exception.UserAlreadyExistsException;
+import com.dhinesh.tvservice.exception.ConflictException;
 import com.dhinesh.tvservice.model.UserModel;
 import com.dhinesh.tvservice.repository.ApplicationUserRepository;
 import com.dhinesh.tvservice.security.ApplicationUserDetails;
@@ -48,7 +48,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
 
         if(userRepository.existsById(username)){
 
-            throw new UserAlreadyExistsException(String.format("Username %s already Exists",username));
+            throw new ConflictException(String.format("Username %s already Exists",username));
         }
 
         // Create User

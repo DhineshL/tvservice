@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -77,12 +74,11 @@ public class TvService {
      */
 
     @Cacheable(value="tvShowsByDate",key = "#date")
-    public List<TvShowModel> fetchTvShowsByDate(String date){
+    public List<TvShowByDate> fetchTvShowsByDate(String date){
 
         List<TvShowByDate> tvShows = tvMazeConsumer.fetchTvShowsByDate(date);
-        List<TvShowModel> tvShowModels = tvShows.stream().map(Utility::createTvShowModelFromTvShowByDate).collect(Collectors.toList());
 
-        return tvShowModels;
+        return tvShows;
     }
 
     public Optional<TvShowEntity> getTvShowEntityById(Integer id){
@@ -90,7 +86,11 @@ public class TvService {
         return tvShowRepository.findById(id);
     }
 
-    public List<TvShowEntity> getTop10TvShow(){
+    public Collection<TvShowEntity> getTop10TvShow(){
         return tvShowRepository.findFirst10ByOrderByLikesDesc();
+    }
+
+    public Collection<TvShowEntity> getSavedTvShows(String username){
+        return tvUserRepository.findSavedTvShowsByUsername(username).getSavedTvShows();
     }
 }
