@@ -49,7 +49,7 @@ public class UserController {
 
         applicationService.likeTvShow(tvShowModel, principal);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "top", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,7 +74,7 @@ public class UserController {
 
         List<TvShowModel> tvShowModels = applicationService.getSavedTvShows(principal);
 
-        return new ResponseEntity<>(tvShowModels,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(tvShowModels,HttpStatus.OK);
     }
 
     @DeleteMapping(value = "deleteshow/{id}")
@@ -82,6 +82,6 @@ public class UserController {
 
         applicationService.deleteTvShowForUser(id,principal);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
