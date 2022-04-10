@@ -108,43 +108,7 @@
             </exclude> 
           </excludes> 
         </configuration> 
-      </plugin>  
-      <plugin> 
-        <groupId>com.microsoft.azure</groupId>  
-        <artifactId>azure-webapp-maven-plugin</artifactId>  
-        <version>2.5.0</version>  
-        <configuration>
-          <schemaVersion>v2</schemaVersion>
-          <subscriptionId>216c2326-5106-4a24-8545-408a4aa97227</subscriptionId>
-          <resourceGroup>tvservice</resourceGroup>
-          <appName>tvservice</appName>
-          <pricingTier>S1</pricingTier>
-          <region>centralus</region>
-          <appServicePlanName>ASP-tvservice-a69e</appServicePlanName>
-          <appServicePlanResourceGroup>tvservice</appServicePlanResourceGroup>
-          <runtime>
-            <os>Windows</os>
-            <javaVersion>Java 11</javaVersion>
-            <webContainer>Java SE</webContainer>
-          </runtime>
-          <appSettings>
-            <property>
-              <name>JAVA_OPTS</name>
-              <value>-Dserver.port=80</value>
-            </property>
-          </appSettings>
-          <deployment>
-            <resources>
-              <resource>
-                <directory>${project.basedir}/target</directory>
-                <includes>
-                  <include>*.jar</include>
-                </includes>
-              </resource>
-            </resources>
-          </deployment>
-        </configuration>
-      </plugin> 
+      </plugin>
     </plugins> 
   </build> 
 </project>
