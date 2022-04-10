@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class UserExceptionHandler {
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ExceptionResponse> resourceAlreadyExists(UserAlreadyExistsException ex) {
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ExceptionResponse> conflictExceptionHandler(ConflictException ex) {
 
         ExceptionResponse response=new ExceptionResponse();
         response.setErrorCode("CONFLICT");
@@ -21,14 +21,14 @@ public class UserExceptionHandler {
         return new ResponseEntity<ExceptionResponse>(response, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(AlreadyLikedTvShow.class)
-    public ResponseEntity<ExceptionResponse> alreadyLikedTvShow(AlreadyLikedTvShow ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionResponse> notFoundExceptionHandler(NotFoundException ex) {
 
         ExceptionResponse response=new ExceptionResponse();
         response.setErrorCode("CONFLICT");
         response.setErrorMessage(ex.getMessage());
         response.setTimestamp(LocalDateTime.now());
 
-        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.CONFLICT);
+        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.NOT_FOUND);
     }
 }
