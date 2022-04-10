@@ -129,4 +129,56 @@ public class ApplicationService {
                 collect(Collectors.toList());
     }
 
+    public void saveTvShowForUser(TvShowModel tvShowModel, Principal principal){
+        String username = principal.getName();
+        TvUser tvUser = tvService.getTvUserByUserName(username);
+        TvShowEntity tvShowEntity = Utility.createTvShowEntityFromTvShowModal(tvShowModel);
+
+
+        if(! tvUser.getSavedTvShows().contains(tvShowEntity)){
+
+            tvUser.getSavedTvShows().add(tvShowEntity);
+            tvService.saveTvShow(tvShowEntity);
+            tvService.saveTvUser(tvUser);
+        }
+
+    }
+
+    public void featureTvShowForUser(TvShowModel tvShowModel, Principal principal){
+        String username = principal.getName();
+        TvUser tvUser = tvService.getTvUserByUserName(username);
+
+        TvShowEntity tvShowEntity = Utility.createTvShowEntityFromTvShowModal(tvShowModel);
+        if(!tvUser.getSavedTvShows().contains(tvShowEntity)){
+            throw new ConflictException("Cannot add Unsaved TvShow");
+        }
+
+        tvUser.getFeaturedTvShows().add(tvShowEntity.getId());
+
+        tvService.saveTvUser(tvUser);
+    }
+
+    public List<TvShowModel> getSavedTvShows(Principal principal){
+        String username = principal.getName();
+
+        return tvService.getSavedTvShows(username).
+                stream().map(Utility::createTvShowModalFromTvUserEntity).
+                collect(Collectors.toList());
+    }
+
+    public void deleteTvShowForUser(int id, Principal principal){
+        String username = principal.getName();
+        TvUser tvUser = tvService.getTvUserByUserName(username);
+        Set<TvShowEntity> savedShows = tvUser.getSavedTvShows();
+        log.info("herer");
+        log.info(savedShows.toString());
+
+        Optional<TvShowEntity> tvShow = savedShows.stream().filter((show)->show.getId()==id).findFirst();
+
+        if(tvShow.isEmpty()) throw new NotFoundException((String.format("resource %i not found",id)));
+
+        tvUser.getSavedTvShows().remove(tvShow.get());
+        tvService.saveTvUser(tvUser);
+    }
+
 }

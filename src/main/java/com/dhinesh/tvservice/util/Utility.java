@@ -77,7 +77,7 @@ public class Utility {
         return tvUser;
     }
 
-    public static TvShowEntity createTvShowEntityFromTvUserModal(TvShowModel tvShowModel){
+    public static TvShowEntity createTvShowEntityFromTvShowModal(TvShowModel tvShowModel){
 
        TvShowEntity tvShowEntity = new TvShowEntity();
        tvShowEntity.setId(tvShowModel.getId());

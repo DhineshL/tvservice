@@ -60,4 +60,28 @@ public class UserController {
 
         return new ResponseEntity<>(tvShows, HttpStatus.OK);
     }
+
+    @PostMapping(value = "saveshow",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> saveTvShow(@RequestBody TvShowModel tvShowModel, Principal principal){
+
+        applicationService.saveTvShowForUser(tvShowModel,principal);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping(value="savedshows",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TvShowModel>> getsavedshows(Principal principal){
+
+        List<TvShowModel> tvShowModels = applicationService.getSavedTvShows(principal);
+
+        return new ResponseEntity<>(tvShowModels,HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping(value = "deleteshow/{id}")
+    public ResponseEntity<?> deleteTvShow(@PathVariable int id, Principal principal){
+
+        applicationService.deleteTvShowForUser(id,principal);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
