@@ -1,8 +1,7 @@
 package com.dhinesh.tvservice.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -12,13 +11,12 @@ import java.util.List;
 import java.util.Set;
 
 @Entity(name = "tblTvUser")
-@Getter
-@Setter
+@Data
 public class TvUser {
     @Id
     private String username;
 
-    private Integer lastShowId;
+    private int lastShowId;
 
     @ManyToMany
     private Set<TvShowEntity> savedTvShows;

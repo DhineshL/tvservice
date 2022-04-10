@@ -18,11 +18,15 @@ import java.util.Optional;
 @Service
 public class ApplicationUserDetailsService implements UserDetailsService {
 
-    @Autowired
     private ApplicationUserRepository userRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public ApplicationUserDetailsService(ApplicationUserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

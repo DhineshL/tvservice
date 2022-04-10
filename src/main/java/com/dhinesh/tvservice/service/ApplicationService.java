@@ -181,8 +181,6 @@ public class ApplicationService {
         String username = principal.getName();
         TvUser tvUser = tvService.getTvUserByUserName(username);
         Set<TvShowEntity> savedShows = tvUser.getSavedTvShows();
-        log.info("herer");
-        log.info(savedShows.toString());
 
         Optional<TvShowEntity> tvShow = savedShows.stream().filter((show)->show.getId()==id).findFirst();
 

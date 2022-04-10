@@ -3,6 +3,7 @@ package com.dhinesh.tvservice.service;
 import com.dhinesh.tvservice.consumer.TvMazeConsumer;
 import com.dhinesh.tvservice.entity.TvShowEntity;
 import com.dhinesh.tvservice.entity.TvUser;
+import com.dhinesh.tvservice.exception.NotFoundException;
 import com.dhinesh.tvservice.model.TvShow;
 import com.dhinesh.tvservice.model.TvShowByDate;
 import com.dhinesh.tvservice.model.TvShowModel;
@@ -34,7 +35,7 @@ public class TvService {
     public TvUser getTvUserByUserName(String userName){
 
         return tvUserRepository.findByUsername(userName)
-                .orElseThrow(()-> new RuntimeException(String.format("User name %s does not exist",userName)));
+                .orElseThrow(()-> new NotFoundException(String.format("User name %s does not exist",userName)));
     }
 
     public void saveTvUser(TvUser tvUser){
@@ -76,21 +77,21 @@ public class TvService {
     @Cacheable(value="tvShowsByDate",key = "#date")
     public List<TvShowByDate> fetchTvShowsByDate(String date){
 
-        List<TvShowByDate> tvShows = tvMazeConsumer.fetchTvShowsByDate(date);
-
-        return tvShows;
+        return tvMazeConsumer.fetchTvShowsByDate(date);
     }
 
-    public Optional<TvShowEntity> getTvShowEntityById(Integer id){
+    public Optional<TvShowEntity> getTvShowEntityById(int id){
 
         return tvShowRepository.findById(id);
     }
 
     public Collection<TvShowEntity> getTop10TvShow(){
+
         return tvShowRepository.findFirst10ByOrderByLikesDesc();
     }
 
     public Collection<TvShowEntity> getSavedTvShows(String username){
+
         return tvUserRepository.findSavedTvShowsByUsername(username).getSavedTvShows();
     }
 }
