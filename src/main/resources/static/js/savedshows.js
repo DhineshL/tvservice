@@ -1,5 +1,5 @@
 const http = new EasyHTTP()
-const url = window.location.origin + '/user/streamingnow'
+const url = window.location.origin + '/user/savedshows'
 const tvshowsdata = http
   .get(url)
   .then((data) => {
@@ -7,7 +7,6 @@ const tvshowsdata = http
     let tvshows = [...new Map(data.map((item) => [item['id'], item])).values()]
     for (let index = 0; index < tvshows.length; index++) {
       const element = tvshows[index]
-
       let genretag = ``
       for (let index = 0; index < element.genres.length; index++) {
         const genre = element.genres[index]
@@ -49,12 +48,13 @@ const tvshowsdata = http
                 </p>
               </div>
             </div>
+            <button class="btn btn-danger" >Likes :${element.likes}</button>
             <button class="btn btn-primary likebutton" id=${
               element.id
             }>Like</button>
-            <button class="btn btn-primary savebutton" id=${
+            <button class="btn btn-danger removebutton" id=${
               element.id
-            }>SaveShow</button>
+            }>Remove</button>
           </div>
           <div class="flex-fill p-2 center bg-dark">
             <h1 class="center text-white">${element.name}<span> ${
@@ -86,11 +86,10 @@ const tvshowsdata = http
 const liketvshow = tvshowsdata.then((data) => {
   document.getElementById('tvshows').addEventListener('click', (e) => {
     if (e.target.classList.contains('likebutton')) {
+      const likedtvshow = data.find((x) => x.id == e.target.id)
       e.target.classList.remove('btn-primary')
       e.target.classList.add('btn-success')
       alert('like added')
-
-      const likedtvshow = data.find((x) => x.id == e.target.id)
 
       const url = window.location.origin + '/user/like'
       http
@@ -101,18 +100,19 @@ const liketvshow = tvshowsdata.then((data) => {
   })
 })
 
-const savetvshow = tvshowsdata.then((data) => {
+const removebutton = tvshowsdata.then((data) => {
   document.getElementById('tvshows').addEventListener('click', (e) => {
-    if (e.target.classList.contains('savebutton')) {
-      e.target.classList.remove('btn-primary')
+    if (e.target.classList.contains('removebutton')) {
+      const url = window.location.origin + '/user/deleteshow/' + e.target.id
+      e.target.classList.remove('btn-danger')
       e.target.classList.add('btn-success')
-
-      const likedtvshow = data.find((x) => x.id == e.target.id)
-
-      const url = window.location.origin + '/user/saveshow'
+      alert('removed')
       http
-        .post(url, likedtvshow)
-        .then((data) => console.log(data))
+        .delete(url)
+        .then((data) => {
+          console.log(data)
+          window.location.reload()
+        })
         .catch((err) => console.log(err))
     }
   })

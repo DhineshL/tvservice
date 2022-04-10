@@ -53,11 +53,16 @@ const tvshowsdata = http
             <button class="btn btn-primary likebutton" id=${
               element.id
             }>Like</button>
+            <button class="btn btn-primary savebutton" id=${
+              element.id
+            }>SaveShow</button>
+            <a class="btn btn-danger" href="/suggest.html">Next</a>
           </div>
           <div class="flex-fill p-2 center bg-dark">
-            <h1 class="center text-white">${element.name}<span> ${
-          element.language != null ? '(' + element.language + ')' : ''
-        }</span></h1>
+            <h1 class="center text-white">${element.name}
+            <span> ${
+              element.language != null ? '(' + element.language + ')' : ''
+            }</span></h1>
             <p>
             ${element.summary != null ? element.summary : ''}
             </p>
@@ -85,16 +90,32 @@ const liketvshow = tvshowsdata.then((data) => {
   document.getElementById('tvshows').addEventListener('click', (e) => {
     console.log(e.target.classList)
     if (e.target.classList.contains('likebutton')) {
-      const likedtvshow = data
+      e.target.classList.remove('btn-primary')
+      e.target.classList.add('btn-success')
+      alert('like added')
 
       const url = window.location.origin + '/user/like'
       http
-        .post(url, likedtvshow)
+        .post(url, data)
         .then((data) => {
           console.log(data)
-          alert('like added')
         })
-        .catch((err) => alert('already liked'))
+        .catch(() => alert('already liked'))
+    }
+  })
+})
+
+const savetvshow = tvshowsdata.then((data) => {
+  document.getElementById('tvshows').addEventListener('click', (e) => {
+    if (e.target.classList.contains('savebutton')) {
+      e.target.classList.remove('btn-primary')
+      e.target.classList.add('btn-success')
+
+      const url = window.location.origin + '/user/saveshow'
+      http
+        .post(url, data)
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err))
     }
   })
 })

@@ -1,13 +1,3 @@
-/**
- * EasyHTTP Library
- * Library for making HTTP requests
- *
- * @version 2.0.0
- * @author  Brad Traversy
- * @license MIT
- *
- **/
-
 class EasyHTTP {
   // Make an HTTP GET Request
   get(url) {
@@ -60,7 +50,7 @@ class EasyHTTP {
           'Content-type': 'application/json',
         },
       })
-        .then((res) => res.json())
+        .then((res) => res)
         .then(() => resolve('Resource Deleted...'))
         .catch((err) => reject(err))
     })

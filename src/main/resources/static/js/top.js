@@ -52,6 +52,9 @@ const tvshowsdata = http
             <button class="btn btn-primary likebutton" id=${
               element.id
             }>Like</button>
+            <button class="btn btn-primary savebutton" id=${
+              element.id
+            }>SaveShow</button>
           </div>
           <div class="flex-fill p-2 center bg-dark">
             <h1 class="center text-white">${element.name}<span> ${
@@ -84,8 +87,27 @@ const liketvshow = tvshowsdata.then((data) => {
   document.getElementById('tvshows').addEventListener('click', (e) => {
     if (e.target.classList.contains('likebutton')) {
       const likedtvshow = data.find((x) => x.id == e.target.id)
+      e.target.classList.remove('btn-primary')
+      e.target.classList.add('btn-success')
+      alert('like added')
 
       const url = window.location.origin + '/user/like'
+      http
+        .post(url, likedtvshow)
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err))
+    }
+  })
+})
+
+const savetvshow = tvshowsdata.then((data) => {
+  document.getElementById('tvshows').addEventListener('click', (e) => {
+    if (e.target.classList.contains('savebutton')) {
+      e.target.classList.remove('btn-primary')
+      e.target.classList.add('btn-success')
+      const likedtvshow = data.find((x) => x.id == e.target.id)
+
+      const url = window.location.origin + '/user/saveshow'
       http
         .post(url, likedtvshow)
         .then((data) => console.log(data))
