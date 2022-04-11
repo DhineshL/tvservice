@@ -61,17 +61,13 @@ public class ApplicationService {
     public TvShowModel suggestTvShow(Principal user) {
 
         String userName = user.getName();
-
-
-
         // Get user from userTable
         TvUser tvUser = tvService.getTvUserByUserName(userName);
 
         int id = tvUser.getLastShowId();
-
         int page = id / 250;
 
-        // fetch the show using user.showId use page = showId/256 and iterate for showId
+        // fetch the show using user.showId use page = showId/256 and find by show id
         Map<Integer, TvShowModel> tvShows = tvService.fetchTvShowPages(page);
 
         TvShowModel tvShowModel = tvShows.get(id);
