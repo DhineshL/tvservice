@@ -5,7 +5,6 @@ import com.dhinesh.tvservice.entity.TvShowEntity;
 import com.dhinesh.tvservice.entity.TvUser;
 import com.dhinesh.tvservice.exception.NotFoundException;
 import com.dhinesh.tvservice.model.TvShow;
-import com.dhinesh.tvservice.model.TvShowByDate;
 import com.dhinesh.tvservice.model.TvShowModel;
 import com.dhinesh.tvservice.repository.TvShowRepository;
 import com.dhinesh.tvservice.repository.TvUserRepository;
@@ -17,6 +16,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -70,13 +70,13 @@ class TvServiceTest {
 
         tvServiceUnderTest.saveTvUser(tvUser);
 
-        ArgumentCaptor<TvUser> studentArgumentCaptor =
+        ArgumentCaptor<TvUser> tvUserArgumentCaptor =
                 ArgumentCaptor.forClass(TvUser.class);
 
         verify(tvUserRepository)
-                .save(studentArgumentCaptor.capture());
+                .save(tvUserArgumentCaptor.capture());
 
-        TvUser capturedTvUser = studentArgumentCaptor.getValue();
+        TvUser capturedTvUser = tvUserArgumentCaptor.getValue();
 
         assertThat(capturedTvUser).isEqualTo(tvUser);
 
@@ -90,13 +90,13 @@ class TvServiceTest {
 
         tvServiceUnderTest.saveTvShow(tvShowEntity);
 
-        ArgumentCaptor<TvShowEntity> studentArgumentCaptor =
+        ArgumentCaptor<TvShowEntity> tvUserArgumentCaptor =
                 ArgumentCaptor.forClass(TvShowEntity.class);
 
         verify(tvShowRepository)
-                .save(studentArgumentCaptor.capture());
+                .save(tvUserArgumentCaptor.capture());
 
-        TvShowEntity capturedTvShowEntity = studentArgumentCaptor.getValue();
+        TvShowEntity capturedTvShowEntity = tvUserArgumentCaptor.getValue();
 
         assertThat(capturedTvShowEntity).isEqualTo(tvShowEntity);
     }
@@ -125,12 +125,18 @@ class TvServiceTest {
     @Test
     void fetchTvShowsByDate() {
 
-        List<TvShowByDate> tvShowByDates = new ArrayList<>();
+        String date = LocalDate.now().toString();
 
+        tvServiceUnderTest.fetchTvShowsByDate(date);
 
-        given(tvMazeConsumer.fetchTvShowsByDate(anyString())).willReturn(tvShowByDates);
+        ArgumentCaptor<String> dateArgumentCaptor =
+                ArgumentCaptor.forClass(String.class);
+        verify(tvMazeConsumer)
+                .fetchTvShowsByDate(dateArgumentCaptor.capture());
 
-        assertThat(tvMazeConsumer.fetchTvShowsByDate(anyString())).isEqualTo(tvShowByDates);
+        String capturedDate = dateArgumentCaptor.getValue();
+
+        assertThat(capturedDate).isEqualTo(date);
     }
 
     @Test
