@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -183,6 +180,16 @@ public class ApplicationService {
         if(tvShow.isEmpty()) throw new NotFoundException((String.format("resource %i not found",id)));
 
         tvUser.getSavedTvShows().remove(tvShow.get());
+        tvService.saveTvUser(tvUser);
+    }
+
+    public void reset(Principal principal){
+
+        String user = principal.getName();
+        TvUser tvUser = tvService.getTvUserByUserName(user);
+        tvUser.setLastShowId(1);
+        tvUser.setSavedTvShows(Collections.emptySet());
+        tvUser.setFeaturedTvShows(Collections.emptyList());
         tvService.saveTvUser(tvUser);
     }
 

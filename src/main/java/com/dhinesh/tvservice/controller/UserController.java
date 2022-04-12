@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user")
+@PreAuthorize("hasAnyRole('ROLE_USER')")
 public class UserController {
 
     private ApplicationService applicationService;
@@ -26,7 +27,6 @@ public class UserController {
 
 
     @GetMapping(value = "suggest", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<TvShowModel> suggestShow(Principal principal) {
 
         TvShowModel tvShow = applicationService.suggestTvShow(principal);
@@ -35,7 +35,6 @@ public class UserController {
     }
 
     @GetMapping(value = "streamingnow", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<List<TvShowModel>> getTvShowsToday() {
 
         List<TvShowModel> tvShows = applicationService.getTvShowsToday();
@@ -44,7 +43,6 @@ public class UserController {
     }
 
     @PostMapping(value = "like", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<?> likedTvShow(@RequestBody TvShowModel tvShowModel, Principal principal) {
 
         applicationService.likeTvShow(tvShowModel, principal);
@@ -53,7 +51,6 @@ public class UserController {
     }
 
     @GetMapping(value = "top", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<List<TvShowModel>> getTop10TvShows() {
 
         List<TvShowModel> tvShows = applicationService.getTop10TvShow();
@@ -81,6 +78,14 @@ public class UserController {
     public ResponseEntity<?> deleteTvShow(@PathVariable int id, Principal principal){
 
         applicationService.deleteTvShowForUser(id,principal);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping(value="reset")
+    public ResponseEntity<?> resetUser(Principal principal){
+
+        applicationService.reset(principal);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

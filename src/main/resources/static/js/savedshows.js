@@ -117,3 +117,21 @@ const removebutton = tvshowsdata.then((data) => {
     }
   })
 })
+
+const resetbutton = document
+  .getElementById('tvshows')
+  .addEventListener('click', (e) => {
+    if (e.target.classList.contains('resetuserbutton')) {
+      const url = window.location.origin + '/user/reset'
+      e.target.classList.remove('btn-primary')
+      e.target.classList.add('btn-success')
+      alert('removed')
+      http
+        .put(url, [])
+        .then((data) => {
+          console.log(data)
+          window.location.reload()
+        })
+        .catch((err) => console.log(err))
+    }
+  })

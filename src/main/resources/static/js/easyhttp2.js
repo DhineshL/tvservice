@@ -35,7 +35,7 @@ class EasyHTTP {
         },
         body: JSON.stringify(data),
       })
-        .then((res) => res.json())
+        .then((res) => res)
         .then((data) => resolve(data))
         .catch((err) => reject(err))
     })
