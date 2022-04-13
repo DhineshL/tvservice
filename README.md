@@ -1,6 +1,6 @@
 # Tvservice
 
-provides information about a tvservice
+provides information about a tv show and recommends random tvshow
 
 ## Description
 
